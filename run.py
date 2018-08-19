@@ -1,26 +1,21 @@
 from flask import Flask#, render_template
+from pymongo import MongoClient
 # from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
 app.config['PORT'] = 5501
 
 
+# db authentication
+dbauth = csv.reader(open('./dbauth.txt', 'r')).next()
+dbauth[0] = dbauth[0].strip()
+dbauth[1] = dbauth[1].strip()
 
-# socketio = SocketIO(app)
+dburl = 'mongodb://'+dbauth[0]+':'+dbauth[1]+'@localhost:27017/?authSource=admin'
 
+client  = MongoClient(dburl)
+db      = client.dataportraits
 
-
-# @socketio.on('detect_patterns')
-# def detect(data):
-# 	G = suggest.from_dict(data)
-# 	patterns = suggest.get_hubs(G, nx.pagerank)
-# 	patterns = patterns + suggest.get_cliques(G)
-# 	patterns = patterns + suggest.get_communities(G)
-# 	patterns = patterns + suggest.get_articulation_points(G)
-# 	patterns1 = suggest.prune_patterns(G,patterns)
-# 	patterns2 = suggest.rank_patterns(G, patterns1, data['highlights'])
-	
-# 	socketio.emit('patterns', patterns2)
 @app.route('/')
 def hello():
     return 'Hello, World!'
