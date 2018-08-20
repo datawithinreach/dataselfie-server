@@ -104,4 +104,7 @@ venv.bak/
 .mypy_cache/
 
 
-dbauth.txt
+db_auth.txt
+email_auth.txt
+sendgrid.env
+.vscode
