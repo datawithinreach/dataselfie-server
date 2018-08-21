@@ -21,12 +21,12 @@ app.config.from_object('config')
 # app.config['MAIL_USE_TLS '] = False
 # app.config['MAIL_USE_SSL '] = True
 
-email_auth = next(csv.reader(open('./email_auth.txt', 'r')))
-email_auth[0] = email_auth[0].strip()
-email_auth[1] = email_auth[1].strip()
+# email_auth = next(csv.reader(open('./email_auth.txt', 'r')))
+# email_auth[0] = email_auth[0].strip()
+# email_auth[1] = email_auth[1].strip()
 
-app.config['MAIL_USERNAME'] = email_auth[0]
-app.config['MAIL_PASSWORD'] = email_auth[1]
+# app.config['MAIL_USERNAME'] = email_auth[0]
+# app.config['MAIL_PASSWORD'] = email_auth[1]
 # app.config['MAIL_DEFAULT_SENDER'] = 'namwkim85@gmail.com'
 # decorate
 CORS(app)
