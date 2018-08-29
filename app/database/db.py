@@ -12,7 +12,7 @@ dburl = 'mongodb://'+dbauth[0]+':'+dbauth[1]+'@localhost:27017/?authSource=admin
 def get_db():
 	if 'db' not in g:
 		g.db = MongoClient(dburl)
-	return g.db.dataportraits
+	return g.db.dataselfie
 
 
 def close_db(e=None):
