@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from flask import Blueprint, request, jsonify, url_for, render_template
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.auth.email import send_email
@@ -14,6 +14,8 @@ def login():
 	db = get_db()
 	auth = request.get_json()
 	user = db.users.find_one({'username': auth['username']})
+	if user is None:
+		return jsonify(status=False, message='{0} does not exist!'.format(auth['username']))	
 	if user['confirmed'] is False:
 		return jsonify(status=False, message='You have not activated your account yet.')
 	# try reading a user 
@@ -35,9 +37,10 @@ def signup():
 	if email is not None :
 		return jsonify(status=False, message='email is already taken!')
 	try:
+		auth['_id'] = auth['email']
 		auth['password'] = generate_password_hash(auth['password']) # hashing
 		auth['confirmed'] = False
-		
+		auth['createdAt'] = datetime.now().timestamp()
 		db.users.insert_one(auth)
 		token = generate_confirmation_token(auth['email'])
 		
@@ -57,12 +60,12 @@ def confirm_email(token):
 		email = confirm_token(token)
 	except:
 		return render_template('confirm.html', message='The confirmation link is invalid or has expired.', success=False) 
-	user = db.users.find_one({'email': email})
+	user = db.users.find_one({'_id': email})
 	if user['confirmed']:
 		return render_template('confirm.html', message='Account already confirmed.', success=True) 
 	
 	user['confirmed'] = True
-	db.users.update_one({'email': email}, {'$set':{'confirmed':True, 'confirmed_on': datetime.datetime.now()}} )
+	db.users.update_one({'_id': email}, {'$set':{'confirmed':True, 'confirmed_on': datetime.datetime.now()}} )
 	return render_template('confirm.html', message='You have confirmed your account. Thanks!', success=True) 
 	
 
@@ -71,6 +74,8 @@ def resend_confirmation():
 	db = get_db()
 	auth = request.get_json()
 	user = db.users.find_one({'username': auth['username']})
+	if user is None:
+		return jsonify(status=False, message='{0} does not exist!'.format(auth['username']))
 	token = generate_confirmation_token(user['email'])
 	confirm_url = url_for('.confirm_email', token=token, _external=True)
 	html = render_template('activate.html', confirm_url=confirm_url, username=user['username'])
