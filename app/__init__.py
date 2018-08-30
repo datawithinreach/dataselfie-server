@@ -34,8 +34,10 @@ mail = Mail(app)
 
 # import blueprints here otherwise, circular imports will attempt to access mail which is not defined yet
 from app.auth.route import auth
+from app.form.route import form
 from app.database.db import close_db
 # blurprints
 app.register_blueprint(auth)
+app.register_blueprint(form)
 
 app.teardown_appcontext(close_db)
