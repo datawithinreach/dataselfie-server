@@ -40,7 +40,7 @@ def signup():
 		auth['_id'] = auth['email']
 		auth['password'] = generate_password_hash(auth['password']) # hashing
 		auth['confirmed'] = False
-		auth['createdAt'] = datetime.now().timestamp()
+		auth['createdAt'] = datetime.utcnow()
 		db.users.insert_one(auth)
 		token = generate_confirmation_token(auth['email'])
 		
@@ -65,7 +65,7 @@ def confirm_email(token):
 		return render_template('confirm.html', message='Account already confirmed.', success=True) 
 	
 	user['confirmed'] = True
-	db.users.update_one({'_id': email}, {'$set':{'confirmed':True, 'confirmed_on': datetime.datetime.now()}} )
+	db.users.update_one({'_id': email}, {'$set':{'confirmed':True, 'confirmed_on': datetime.utcnow()}} )
 	return render_template('confirm.html', message='You have confirmed your account. Thanks!', success=True) 
 	
 
