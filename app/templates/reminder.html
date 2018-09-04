@@ -1,0 +1,79 @@
+
+<html>
+    <head>
+            <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500" rel="stylesheet">
+        <style>
+            .container{
+                font-family: 'Roboto', sans-serif;
+                font-size: 14px;
+                color:#212121;
+            }
+            .logo{
+                background: #212121;
+                color:white;
+                padding: 4px 8px;
+                box-sizing: border-box;
+                margin: 5px 0px;
+                /* text-transform: uppercase; */
+				font-size: 20px;
+				text-align: center;
+				font-style: italic;
+                
+            }
+            .section{
+                margin:20px 0px;
+            }
+            .content{
+                margin:10px;
+            }
+            .link{
+                    text-decoration: none;
+                    color:#0091EA;
+                    cursor: pointer;
+                    opacity: 0.8;
+                    transition: all 0.2s;
+                    position: relative;
+                }
+            .link:hover{
+                opacity: 1.0;
+            }
+            .link:before{
+                    content: "";
+                    position: absolute;
+                    bottom: -2px;
+                    width: 100%;
+                    height: 2px;
+                    z-index: 10;
+                    background-color: #0091EA;
+                    transform: scaleX(0);
+                    transition: all 0.2s;
+                }
+            .link:hover:before {
+                    transform: scaleX(1);
+                }
+            .link:visited{ color: #0091EA }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="logo">DataSelfie</div>
+            <div class="content">
+                <div class="section" >Hi there!</div>
+                <div class="section">
+                    This is a friendly reminder about submitting a response to the form below:
+                </div>
+                <div class="section" >
+                    <a class="link" href="{{ form_url }}">{{ form_url }}</a>
+                </div>
+                <div class="section" >
+                    Many Thanks!<br>
+                    Nam
+                </div>
+        
+            </div>
+        </div>
+        
+        
+       
+    </body>
+</html>

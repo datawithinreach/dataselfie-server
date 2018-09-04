@@ -1,8 +1,13 @@
 from  datetime import datetime
 from flask import Blueprint, request, jsonify, url_for, render_template
 from app.database.db import get_db
-# from bson.objectid import ObjectId
+# from apscheduler.schedulers.background import BackgroundScheduler
 from pymongo.errors import PyMongoError
+
+from app.form.reminder import run_scheduler
+
+run_scheduler()
+
 
 form = Blueprint('form', __name__)
 
@@ -69,8 +74,10 @@ def request_form_content():
 			drawings += list(db.drawings.find({'parentId':option['id']}).sort('createdAt'))
 
 		# find all responses
-		responses = list(db.responses.find({'formId':params['formId']}).sort('createdAt'))
-	
+		responses = []
+		if (params['viewMode']==False):
+			responses = list(db.responses.find({'formId':params['formId']}).sort('createdAt'))
+
 		data = {'form':result, 'questions':questions, 'options':options, \
 			'drawings':drawings, 'responses':responses}
 		return jsonify(status=True, message='Successfully fetched the form content.', data=data)
