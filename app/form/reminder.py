@@ -15,7 +15,7 @@ env = Environment(
 	autoescape=select_autoescape(['html'])
 )
 
-url = 'http://localhost:8888'
+url = 'https://dataportrait.namwkim.org'
 # Reminder Emails
 from app.auth.email import send_email
 from apscheduler.schedulers.background import BackgroundScheduler
