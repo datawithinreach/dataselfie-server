@@ -76,7 +76,7 @@ def resend_confirmation():
 	user = db.users.find_one({'username': auth['username']})
 	if user is None:
 		return jsonify(status=False, message='{0} does not exist!'.format(auth['username']))
-	token = generate_confirmation_token(user['email'])
+	token = generate_confirmation_token(user['username'])
 	confirm_url = url_for('.confirm_email', token=token, _external=True)
 	html = render_template('activate.html', confirm_url=confirm_url, username=user['username'])
 	subject = "Please Activate Your DataPortraits Account"
