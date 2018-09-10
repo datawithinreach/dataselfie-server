@@ -42,7 +42,7 @@ def signup():
 		auth['confirmed'] = False
 		auth['createdAt'] = datetime.utcnow()
 		db.users.insert_one(auth)
-		token = generate_confirmation_token(auth['email'])
+		token = generate_confirmation_token(auth['username'])
 		
 		confirm_url = url_for('.confirm_email', token=token, _external=True)
 		html = render_template('activate.html', confirm_url=confirm_url, username=auth['username'])
@@ -57,15 +57,15 @@ def signup():
 def confirm_email(token):
 	db = get_db()
 	try:
-		email = confirm_token(token)
+		username = confirm_token(token)
 	except:
 		return render_template('confirm.html', message='The confirmation link is invalid or has expired.', success=False) 
-	user = db.users.find_one({'_id': email})
+	user = db.users.find_one({'_id': username})
 	if user['confirmed']:
 		return render_template('confirm.html', message='Account already confirmed.', success=True) 
 	
 	user['confirmed'] = True
-	db.users.update_one({'_id': email}, {'$set':{'confirmed':True, 'confirmed_on': datetime.utcnow()}} )
+	db.users.update_one({'_id': username}, {'$set':{'confirmed':True, 'confirmed_on': datetime.utcnow()}} )
 	return render_template('confirm.html', message='You have confirmed your account. Thanks!', success=True) 
 	
 
