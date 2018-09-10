@@ -37,7 +37,7 @@ def signup():
 	# if email is not None :
 	# 	return jsonify(status=False, message='email is already taken!')
 	try:
-		auth['_id'] = auth['email']
+		auth['_id'] = auth['username']
 		auth['password'] = generate_password_hash(auth['password']) # hashing
 		auth['confirmed'] = False
 		auth['createdAt'] = datetime.utcnow()
