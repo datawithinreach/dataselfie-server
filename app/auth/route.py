@@ -33,9 +33,9 @@ def signup():
 	if user is not None :
 		return jsonify(status=False, message='username is already taken!')
 	# check email
-	email = db.users.find_one({'email': auth['email']})
-	if email is not None :
-		return jsonify(status=False, message='email is already taken!')
+	# email = db.users.find_one({'email': auth['email']})
+	# if email is not None :
+	# 	return jsonify(status=False, message='email is already taken!')
 	try:
 		auth['_id'] = auth['email']
 		auth['password'] = generate_password_hash(auth['password']) # hashing
