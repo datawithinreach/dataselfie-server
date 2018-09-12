@@ -46,7 +46,7 @@ def signup():
 		
 		confirm_url = url_for('.confirm_email', token=token, _external=True)
 		html = render_template('activate.html', confirm_url=confirm_url, username=auth['username'])
-		subject = "Please Activate Your DataPortraits Account"
+		subject = "Please Activate Your DataSelfie Account"
 		send_email(auth['email'], subject, html)
 		return jsonify(status=True, message='We sent a confirmation email. Please check your email.')
 	except:
@@ -79,6 +79,6 @@ def resend_confirmation():
 	token = generate_confirmation_token(user['username'])
 	confirm_url = url_for('.confirm_email', token=token, _external=True)
 	html = render_template('activate.html', confirm_url=confirm_url, username=user['username'])
-	subject = "Please Activate Your DataPortraits Account"
+	subject = "Please Activate Your DataSelfie Account"
 	send_email(user['email'], subject, html)
 	return jsonify(status=True, message='We sent a new confirmation email. Please check your email.')
